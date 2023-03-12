@@ -1,7 +1,7 @@
 # Laravel Prohibition
-
-<p align="center"><img width="300" src="https://cdn-icons-png.flaticon.com/512/432/432594.png"/></p>
 laravel package to add prohibition system to your application
+<p align="center"><img width="300" src="https://cdn-icons-png.flaticon.com/512/432/432594.png"/></p>
+
 
 # Installation
 ```shell
