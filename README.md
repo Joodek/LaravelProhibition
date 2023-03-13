@@ -5,20 +5,20 @@ laravel package to add prohibition system to your application
 
 # Installation
 ```shell
-composer require joodek/laravel-prohibition 
+composer require cata/laravel-prohibition 
 ```
 # Configurations
  Add this middleware to your web middlewares group in `app/Http/Kernel.php`
 
 ```php
-Joodek\Prohibition\Middleware\ProhibitionMiddleware::class;
+Cata\Prohibition\Middleware\ProhibitionMiddleware::class;
 ```
 
 make sure to add it exactly to `app/Http/Kernel::$middlewareGroup` property in web key , otherwise it won't work,
 
  publish the configurations using 
 ```shell
-php artisan vendor:publish --provider="Joodek\Prohibition\ProhibitionServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Cata\Prohibition\ProhibitionServiceProvider" --tag="config"
 ```
 
  migrate the table 
@@ -32,7 +32,7 @@ using the same syntax and the same features
 ### User model
 to enable the model prohibition , you should use the `Bannable` trait on your User model like this : 
 ```php
-use Joodek\Prohibition\Bannable;
+use Cata\Prohibition\Bannable;
 
 class User extends Authenticatable
 {
@@ -132,7 +132,7 @@ you can use the `Prohibition` facade to achieve the same results, it provides th
 
 ```php
 
-use Joodek\Prohibition\Facades\Prohibition;
+use Cata\Prohibition\Facades\Prohibition;
 
 Prohibition::banModel($user, now()->addMinute() );
 
@@ -141,7 +141,7 @@ Prohibition::banModel($user, now()->addMinute() );
 `banModel` accept two arguments, the first one might be either `User` instance, `int` or `Collection`, and the second is optional `\Illuminate\Support\Carbon` instance.
 
 ```php
-use Joodek\Prohibition\Facades\Prohibition;
+use Cata\Prohibition\Facades\Prohibition;
 use App\Models\User;
 
 $users = User::take(5)->get();
@@ -162,7 +162,7 @@ if the second argument wasn't provided or equal `null`, the user (s) will be ban
 
   you can  also check if the user is banned like the following : 
 ```php
-use Joodek\Prohibition\Facades\Prohibition;
+use Cata\Prohibition\Facades\Prohibition;
 
 // check if the user banned by passing his model
 Prohibition::banned(user: $user);
@@ -173,7 +173,7 @@ Prohibition::banned(user: $user->id);
 
 or you can unban a user or collection of users :
 ```php
-use Joodek\Prohibition\Facades\Prohibition;
+use Cata\Prohibition\Facades\Prohibition;
 use App\Models\User;
 
 $user = User::first();
@@ -197,7 +197,7 @@ you can use the `Prohibition` facade to ban IP or multiple IPs like the followin
 
 ```php
 
-use Joodek\Prohibition\Facades\Prohibition;
+use Cata\Prohibition\Facades\Prohibition;
 
 $ip = request()->ip();
 
@@ -210,7 +210,7 @@ Prohibition::banIP($ip, now()->addMinute() );
 This means that you can go a step further and ban multiple IPs at the same time :
 
 ```php
-use Joodek\Prohibition\Facades\Prohibition;
+use Cata\Prohibition\Facades\Prohibition;
 
 $ips = ["123.45.6.7","123.45.6.7","123.45.6.7","123.45.6.7"];
 
@@ -221,7 +221,7 @@ and for both cases, if the second argument wasn't provided or equal `null`, the 
 
   you can  also check if the ip is banned using the previous method like the following : 
 ```php
-use Joodek\Prohibition\Facades\Prohibition;
+use Cata\Prohibition\Facades\Prohibition;
 
 Prohibition::banned(ip: $ip);
 ```
@@ -230,7 +230,7 @@ you might noticed  that we used the same method, since the `banned` method accep
  you can unban an ip or array of ips like this :
  
 ```php
-use Joodek\Prohibition\Facades\Prohibition;
+use Cata\Prohibition\Facades\Prohibition;
 use App\Models\User;
 
 $ip = "123.45.6.7";
