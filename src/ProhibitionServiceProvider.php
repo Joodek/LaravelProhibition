@@ -52,14 +52,62 @@ class ProhibitionServiceProvider extends ServiceProvider
 
     private function registerRequestMacros()
     {
-        Request::macro("banned", fn () =>  Prohibition::IPBanned(request()->ip()));
-        Request::macro("ban", fn () =>  Prohibition::banIp(request()->ip()));
-        Request::macro("banForMinutes", fn () =>  Prohibition::banIpForMinutes(request()->ip()));
-        Request::macro("banForHours", fn () =>  Prohibition::banIpForHours(request()->ip()));
-        Request::macro("banForDays", fn () =>  Prohibition::banIpForDays(request()->ip()));
-        Request::macro("banForWeeks", fn () =>  Prohibition::banIpForWeeks(request()->ip()));
-        Request::macro("banForMonths", fn () =>  Prohibition::banIpForMonths(request()->ip()));
-        Request::macro("banForYears", fn () =>  Prohibition::banIpForYears(request()->ip()));
-        Request::macro("unban", fn () =>  Prohibition::unban(request()->ip()));
+        Request::macro("ban", fn () =>  Prohibition::banIP(request()->ip()));
+        Request::macro("unban", fn () =>  Prohibition::unbanIP(request()->ip()));
+        Request::macro("banned", fn () =>  Prohibition::banned(ip: request()->ip()));
+
+        Request::macro(
+            "banForSeconds",
+            fn (int $seconds = 1) =>  Prohibition::banIP(
+                ip: request()->ip(),
+                expired_at: now()->addSeconds($seconds)
+            )
+        );
+
+        Request::macro(
+            "banForMinutes",
+            fn (int $minutes = 1) =>  Prohibition::banIP(
+                ip: request()->ip(),
+                expired_at: now()->addMinutes($minutes)
+            )
+        );
+
+        Request::macro(
+            "banForHours",
+            fn (int $hours = 1) =>  Prohibition::banIP(
+                ip: request()->ip(),
+                expired_at: now()->addHours($hours)
+            )
+        );
+
+        Request::macro(
+            "banForDays",
+            fn (int $days = 1) =>  Prohibition::banIP(
+                ip: request()->ip(),
+                expired_at: now()->addDays($days)
+            )
+        );
+
+        Request::macro(
+            "banForWeeks",
+            fn (int $weeks = 1) =>  Prohibition::banIP(
+                ip: request()->ip(),
+                expired_at: now()->addWeeks($weeks)
+            )
+        );
+        Request::macro(
+            "banForMonths",
+            fn (int $months = 1) =>  Prohibition::banIP(
+                ip: request()->ip(),
+                expired_at: now()->addMonths($months)
+            )
+        );
+        Request::macro(
+            "banForYears",
+            fn (int $years = 1) =>  Prohibition::banIP(
+                ip: request()->ip(),
+                expired_at: now()->addYears($years)
+            )
+        );
     }
 }

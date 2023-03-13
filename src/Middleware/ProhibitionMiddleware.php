@@ -1,12 +1,12 @@
 <?php
 
-namespace Joodek\Prohibition\Http\Middleware;
+namespace Joodek\Prohibition\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 use Joodek\Prohibition\Facades\Prohibition;
 
-class BlockBannedUsersMiddleware
+class ProhibitionMiddleware
 {
     /**
      * Handle an incoming request.

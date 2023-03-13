@@ -4,7 +4,8 @@ namespace Joodek\Prohibition;
 
 use Illuminate\Foundation\Auth\User as Authenticable;
 use Joodek\Prohibition\Exceptions\NotAuthenticableException;
-use Joodek\Prohibition\Models\Ban;
+use Joodek\Prohibition\Facades\Prohibition;
+
 
 trait Bannable
 {
@@ -15,17 +16,7 @@ trait Bannable
     {
         $this->isAuthenticable();
 
-        try {
-            Ban::updateOrCreate(
-                [
-                    "user_id" => $this->id
-                ]
-            );
-
-            return true;
-        } catch (\Throwable $th) {
-            return false;
-        }
+        return Prohibition::banModel($this);
     }
 
     /**
@@ -35,20 +26,10 @@ trait Bannable
     {
         $this->isAuthenticable();
 
-        try {
-            Ban::updateOrCreate(
-                [
-                    "user_id" => $this->id
-                ],
-                [
-                    "expired_at" => now()->addYears($years)
-                ]
-            );
-
-            return true;
-        } catch (\Throwable $th) {
-            return false;
-        }
+        return Prohibition::banModel(
+            $this,
+            now()->addYears($years)
+        );
     }
 
     /**
@@ -58,20 +39,10 @@ trait Bannable
     {
         $this->isAuthenticable();
 
-        try {
-            Ban::updateOrCreate(
-                [
-                    "user_id" => $this->id
-                ],
-                [
-                    "expired_at" => now()->addMonths($months)
-                ]
-            );
-
-            return true;
-        } catch (\Throwable $th) {
-            return false;
-        }
+        return Prohibition::banModel(
+            $this,
+            now()->addMonths($months)
+        );
     }
 
     /**
@@ -81,20 +52,10 @@ trait Bannable
     {
         $this->isAuthenticable();
 
-        try {
-            Ban::updateOrCreate(
-                [
-                    "user_id" => $this->id
-                ],
-                [
-                    "expired_at" => now()->addWeeks($weeks)
-                ]
-            );
-
-            return true;
-        } catch (\Throwable $th) {
-            return false;
-        }
+        return Prohibition::banModel(
+            $this,
+            now()->addWeeks($weeks)
+        );
     }
 
     /**
@@ -104,20 +65,10 @@ trait Bannable
     {
         $this->isAuthenticable();
 
-        try {
-            Ban::updateOrCreate(
-                [
-                    "user_id" => $this->id
-                ],
-                [
-                    "expired_at" => now()->addDays($days)
-                ]
-            );
-
-            return true;
-        } catch (\Throwable $th) {
-            return false;
-        }
+        return Prohibition::banModel(
+            $this,
+            now()->addDays($days)
+        );
     }
 
     /**
@@ -127,20 +78,10 @@ trait Bannable
     {
         $this->isAuthenticable();
 
-        try {
-            Ban::updateOrCreate(
-                [
-                    "user_id" => $this->id
-                ],
-                [
-                    "expired_at" => now()->addHours($hours)
-                ]
-            );
-
-            return true;
-        } catch (\Throwable $th) {
-            return false;
-        }
+        return Prohibition::banModel(
+            $this,
+            now()->addHours($hours)
+        );
     }
 
     /**
@@ -150,22 +91,24 @@ trait Bannable
     {
         $this->isAuthenticable();
 
-        try {
-            Ban::updateOrCreate(
-                [
-                    "user_id" => $this->id
-                ],
-                [
-                    "expired_at" => now()->addMinutes($minutes)
-                ]
-            );
-
-            return true;
-        } catch (\Throwable $th) {
-            return false;
-        }
+        return Prohibition::banModel(
+            $this,
+            now()->addMinutes($minutes)
+        );
     }
 
+    /**
+     * ban the user for the given minutes
+     */
+    public function banForSeconds(int $seconds = 1): bool
+    {
+        $this->isAuthenticable();
+
+        return Prohibition::banModel(
+            $this,
+            now()->addSeconds($seconds)
+        );
+    }
 
     /**
      * unban the user
@@ -174,7 +117,7 @@ trait Bannable
     {
         $this->isAuthenticable();
 
-        return Ban::whereUserId($this->id)->delete();
+        return Prohibition::unbanModel($this);
     }
 
     /**
@@ -182,17 +125,9 @@ trait Bannable
      */
     public function banned(): bool
     {
-        $banned =  Ban::whereUserId($this->id)
-            ->first();
-
-        if (is_null($banned)) return false;
-
-        if (!is_null($ex = $banned->expired_at) && $ex <= now()) {
-            $banned->delete();
-            return false;
-        }
-
-        return true;
+        return Prohibition::banned(
+            user: $this
+        );
     }
 
 
