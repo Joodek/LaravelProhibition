@@ -11,7 +11,7 @@ composer require joodek/laravel-prohibition
  Add this middleware to your web middlewares group in `app/Http/Kernel.php`
 
 ```php
-Joodek\Prohibition\Http\Middleware\BlockBannedUsersMiddleware::class;
+Joodek\Prohibition\Middleware\ProhibitionMiddleware::class;
 ```
 
 make sure to add it exactly to `app/Http/Kernel::$middlewareGroup` property in web key , otherwise it won't work,
@@ -52,6 +52,8 @@ this way the user will be banned forever , and will recieve 403 Forbidden error 
 
 its rare scynario to ban your registered users forever, often you want to only ban a user for a period of time, you can do that using one of the following available methods,
 ```php
+$user->banForSeconds($seconds = 1);
+
 $user->banForMinutes($minutes = 1);
 
 $user->banForHours($hours = 1);
@@ -97,6 +99,8 @@ request()->ban();
 this will ban the current ip address forever, but you can customize the period like the following :
 
 ```php
+$request->banForSeconds($seconds = 1);
+
 $request->banForMinutes($minutes = 1);
 
 $request->banForHours($hours = 1);
