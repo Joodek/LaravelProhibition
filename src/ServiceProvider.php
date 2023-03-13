@@ -1,12 +1,12 @@
 <?php
 
-namespace Joodek\Prohibition;
+namespace Cata\Prohibition;
 
+use Cata\Prohibition\Facades\Prohibition;
 use Illuminate\Http\Request;
-use Illuminate\Support\ServiceProvider;
-use Joodek\Prohibition\Facades\Prohibition;
+use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 
-class ProhibitionServiceProvider extends ServiceProvider
+class ServiceProvider extends BaseServiceProvider
 {
     /**
      * Register any application services.

@@ -1,6 +1,6 @@
 <?php
 
-namespace Joodek\Prohibition\Models;
+namespace Cata\Prohibition\Models;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Joodek\Prohibition\Exceptions;
+namespace Cata\Prohibition\Exceptions;
 
 use Exception;
 

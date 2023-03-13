@@ -1,11 +1,11 @@
 <?php
 
-namespace Joodek\Prohibition\Facades;
+namespace Cata\Prohibition\Facades;
 
+use Cata\Prohibition\LaravelProhibition;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Facade;
-use Joodek\Prohibition\LaravelProhibition;
 use \Illuminate\Support\Carbon;
 
 /**

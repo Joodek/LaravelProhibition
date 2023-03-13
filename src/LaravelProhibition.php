@@ -1,10 +1,10 @@
 <?php
 
-namespace Joodek\Prohibition;
+namespace Cata\Prohibition;
 
+use Cata\Prohibition\Models\Ban;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Joodek\Prohibition\Models\Ban;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Collection as SupportCollection;

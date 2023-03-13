@@ -4,8 +4,8 @@ namespace Tests\Feature;
 
 
 use App\Models\User;
+use Cata\Prohibition\Facades\Prohibition;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Joodek\Prohibition\Facades\Prohibition;
 use Tests\TestCase;
 
 class ProhibitionTest extends TestCase
@@ -84,6 +84,35 @@ class ProhibitionTest extends TestCase
 
         $response->assertStatus(403);
     }
+
+    /** @test */
+    public function users_can_be_unbanned_using_id()
+    {
+        /**
+         * @var User $user
+         */
+        $user = User::factory()->create()->first();
+
+        Prohibition::banModel($user->id, now()->addMinute());
+
+
+        $this->actingAs($user);
+
+        $response = $this->get('/');
+
+        $response->assertStatus(403);
+
+
+        Prohibition::unbanModel($user->id);
+
+
+        $this->actingAs($user);
+
+        $response = $this->get('/');
+
+        $response->assertStatus(200);
+    }
+
 
     /** @test */
     public function users_can_be_unbanned_as_collection_using_facade()

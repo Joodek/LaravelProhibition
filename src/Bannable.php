@@ -1,10 +1,11 @@
 <?php
 
-namespace Joodek\Prohibition;
+namespace Cata\Prohibition;
 
+use Cata\Prohibition\Exceptions\NotAuthenticableException;
+use Cata\Prohibition\Facades\Prohibition;
 use Illuminate\Foundation\Auth\User as Authenticable;
-use Joodek\Prohibition\Exceptions\NotAuthenticableException;
-use Joodek\Prohibition\Facades\Prohibition;
+
 
 
 trait Bannable

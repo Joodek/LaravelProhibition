@@ -1,10 +1,10 @@
 <?php
 
-namespace Joodek\Prohibition\Middleware;
+namespace Cata\Prohibition\Middleware;
 
+use Cata\Prohibition\Facades\Prohibition;
 use Closure;
 use Illuminate\Http\Request;
-use Joodek\Prohibition\Facades\Prohibition;
 
 class ProhibitionMiddleware
 {
