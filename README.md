@@ -128,7 +128,7 @@ $request->unban()
 
 ## Using Facade
 ### For model
-you can use the `Prohibition` facade to achieve the same results, it provides the same functionality but with different syntax,look at the following example : 
+you can use the `Prohibition` facade to achieve the same results, it provides the same functionality but with different syntax, the following example, shows you how to ban one or more users using the facade : 
 
 ```php
 
@@ -138,9 +138,7 @@ Prohibition::banModel($user, now()->addMinute() );
 
 ```
  
-`banModel` accept two arguments, the first one might be either `User` instance or `Collection`, and the second is optional `\Illuminate\Support\Carbon` instance.
-
-This means that you can go a step further and ban multiple users at the same time :
+`banModel` accept two arguments, the first one might be either `User` instance, `int` or `Collection`, and the second is optional `\Illuminate\Support\Carbon` instance.
 
 ```php
 use Joodek\Prohibition\Facades\Prohibition;
@@ -148,16 +146,29 @@ use App\Models\User;
 
 $users = User::take(5)->get();
 
-Prohibition::banModel($users, now()->addHour() );
+// you can ban collection of users
+Prohibition::banModel($users, now()->addHour() ); 
 
+$user = $users->first();
+
+// you can ban user by passing his model
+Prohibition::banModel($user, now()->addHour() ); 
+
+// you can ban user by passing his id
+Prohibition::banModel($user->id, now()->addHour() ); // user id
 ```
-and for both, if the second argument wasn't provided or equal `null`, the user (s) will be banned forever.
+
+if the second argument wasn't provided or equal `null`, the user (s) will be banned forever.
 
   you can  also check if the user is banned like the following : 
 ```php
 use Joodek\Prohibition\Facades\Prohibition;
 
+// check if the user banned by passing his model
 Prohibition::banned(user: $user);
+
+// check if the user banned by passing his id
+Prohibition::banned(user: $user->id);
 ```
 
 or you can unban a user or collection of users :
@@ -167,12 +178,16 @@ use App\Models\User;
 
 $user = User::first();
 
+// you can unban user by passing his model
 Prohibition::unbanModel(user: $user);
 
-// or  Collection
+
+// you can unban user by passing his id
+Prohibition::unbanModel(user: $user->id);
 
 $users = User::take(5)->get();
 
+// you can unban multiple users by passing a collection
 Prohibition::unbanModel(user: $users);
 
 ```
