@@ -2,6 +2,10 @@
 laravel package to add prohibition system to your application
 <p align="center"><img width="300" src="https://cdn-icons-png.flaticon.com/512/432/432594.png"/></p>
 
+<div align="center">
+<img src="/github/release/babel/babel.svg"/>
+</div>
+
 
 # Installation
 ```shell
