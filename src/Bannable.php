@@ -126,7 +126,7 @@ trait Bannable
     public function banned(): bool
     {
         return Prohibition::banned(
-            user: $this
+            user: $this->id
         );
     }
 

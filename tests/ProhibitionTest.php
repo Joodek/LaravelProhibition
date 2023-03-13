@@ -68,6 +68,22 @@ class ProhibitionTest extends TestCase
         $response->assertStatus(200);
     }
 
+    /** @test */
+    public function users_can_be_banned_as_using_id_in_facade()
+    {
+        /**
+         * @var User $user
+         */
+        $user = User::factory()->create()->first();
+
+        Prohibition::banModel($user->id, now()->addMinute());
+
+        $this->actingAs($user);
+
+        $response = $this->get('/');
+
+        $response->assertStatus(403);
+    }
 
     /** @test */
     public function users_can_be_unbanned_as_collection_using_facade()

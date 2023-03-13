@@ -3,10 +3,8 @@
 namespace Joodek\Prohibition;
 
 use Illuminate\Http\Request;
-use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Joodek\Prohibition\Facades\Prohibition;
-use Joodek\Prohibition\Http\Middleware\BlockBannedUsersMiddleware;
 
 class ProhibitionServiceProvider extends ServiceProvider
 {
@@ -28,8 +26,6 @@ class ProhibitionServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPublishes();
-
-        $this->registerMiddleware();
 
         $this->registerRequestMacros();
     }
@@ -53,10 +49,6 @@ class ProhibitionServiceProvider extends ServiceProvider
         );
     }
 
-    private function registerMiddleware()
-    {
-        app("router")->middleware("prohibition", BlockBannedUsersMiddleware::class);
-    }
 
     private function registerRequestMacros()
     {

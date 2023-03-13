@@ -2,12 +2,12 @@
 
 namespace Joodek\Prohibition;
 
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection as SupportCollection;
 use Joodek\Prohibition\Models\Ban;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection as SupportCollection;
 
 class LaravelProhibition
 {
@@ -23,13 +23,15 @@ class LaravelProhibition
     }
 
 
-    public function banned(User $user = null, string $ip = null): bool
+    public function banned(User|int $user = null, string $ip = null): bool
     {
         if (is_null($user) && is_null($ip)) return false;
 
         $banned = Ban::query();
 
-        if ($user) $banned->whereUserId($user->id);
+        if ($user) $banned->whereUserId(
+            is_int($user) ? $user : $user->id
+        );
 
         if ($ip) $banned->orWhere('ip', $ip);
 
@@ -46,7 +48,7 @@ class LaravelProhibition
     }
 
 
-    public function banModel(User|Collection $user, ?Carbon $expired_at = null): bool
+    public function banModel(int|User|Collection $user, ?Carbon $expired_at = null): bool
     {
         if ($user instanceof Collection) {
             return $user->map(
@@ -56,7 +58,7 @@ class LaravelProhibition
 
         try {
             Ban::updateOrCreate(
-                ["user_id" => $user->id],
+                ["user_id" => is_int($user) ? $user : $user->id],
                 ["expired_at" => $expired_at]
             );
 
@@ -67,11 +69,11 @@ class LaravelProhibition
     }
 
 
-    public function unbanModel(User|Collection $user): bool
+    public function unbanModel(int|User|Collection $user): bool
     {
         $users = $user instanceof Collection
             ?    $users =  $user->pluck("id")->toArray()
-            :    $users = [$user->id];
+            :    $users = [is_int($user) ? $user : $user->id];
 
         return  Ban::whereIn("user_id", $users)->delete();
     }
