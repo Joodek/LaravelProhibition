@@ -41,8 +41,15 @@ class ProhibitionServiceProvider extends ServiceProvider
             [
                 dirname(__DIR__) . "/config/prohibition.php" => config_path("prohibition.php"),
                 dirname(__DIR__) . "/database/migrations/create_ban_table.php" => database_path("migrations/create_ban_table.php"),
+            ],
+            "config"
+        );
+
+        $this->publishes(
+            [
                 dirname(__DIR__) . "/tests/ProhibitionTest.php" => base_path("/tests/Feature/ProhibitionTest.php")
-            ]
+            ],
+            "prohibition-tests"
         );
     }
 
