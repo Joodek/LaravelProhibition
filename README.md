@@ -234,7 +234,7 @@ Prohibition::unbanIP($ips);
 you can test the functionality using the package test, to do so, you will need to publish the tests if you haven't yet :
 
 ```shell
-php artisan vendor:publish --provider="Joodek\Prohibition\ProhibitionServiceProvider" --tag="prohibition-tests"
+php artisan vendor:publish  --tag="prohibition-tests"
 ```
 this will clone a `ProhibitionTest` to your tests directory, and run it using the default laravel syntax
 
