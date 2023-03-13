@@ -18,7 +18,7 @@ make sure to add it exactly to `app/Http/Kernel::$middlewareGroup` property in w
 
  publish the configurations using 
 ```shell
-php artisan vendor:publish --provider="Joodek\Prohibition\ProhibitionServiceProvider"
+php artisan vendor:publish --provider="Joodek\Prohibition\ProhibitionServiceProvider" --tag="config"
 ```
 
  migrate the table 
@@ -122,6 +122,121 @@ you can also unban the ip at any time using
 ```php
 $request->unban()
 ```
+.
+.
+.
+
+## Using Facade
+### For model
+you can use the `Prohibition` facade to achieve the same results, it provides the same functionality but with different syntax,look at the following example : 
+
+```php
+
+use Joodek\Prohibition\Facades\Prohibition;
+
+Prohibition::banModel($user, now()->addMinute() );
+
+```
+ 
+`banModel` accept two arguments, the first one might be either `User` instance or `Collection`, and the second is optional `\Illuminate\Support\Carbon` instance.
+
+This means that you can go a step further and ban multiple users at the same time :
+
+```php
+use Joodek\Prohibition\Facades\Prohibition;
+use App\Models\User;
+
+$users = User::take(5)->get();
+
+Prohibition::banModel($users, now()->addHour() );
+
+```
+and for both, if the second argument wasn't provided or equal `null`, the user (s) will be banned forever.
+
+  you can  also check if the user is banned like the following : 
+```php
+use Joodek\Prohibition\Facades\Prohibition;
+
+Prohibition::banned(user: $user);
+```
+
+or you can unban a user or collection of users :
+```php
+use Joodek\Prohibition\Facades\Prohibition;
+use App\Models\User;
+
+$user = User::first();
+
+Prohibition::unbanModel(user: $user);
+
+// or  Collection
+
+$users = User::take(5)->get();
+
+Prohibition::unbanModel(user: $users);
+
+```
+
+### For IP
+you can use the `Prohibition` facade to ban IP or multiple IPs like the following : 
+
+```php
+
+use Joodek\Prohibition\Facades\Prohibition;
+
+$ip = request()->ip();
+
+Prohibition::banIP($ip, now()->addMinute() );
+
+```
+ 
+`banIP` accept two arguments, the first one is an ip `string` or `array`, and the second is optional `\Illuminate\Support\Carbon` instance.
+
+This means that you can go a step further and ban multiple IPs at the same time :
+
+```php
+use Joodek\Prohibition\Facades\Prohibition;
+
+$ips = ["123.45.6.7","123.45.6.7","123.45.6.7","123.45.6.7"];
+
+Prohibition::banIP($ips, now()->addHour() );
+
+```
+and for both cases, if the second argument wasn't provided or equal `null`, the ip (s) will be banned forever.
+
+  you can  also check if the ip is banned using the previous method like the following : 
+```php
+use Joodek\Prohibition\Facades\Prohibition;
+
+Prohibition::banned(ip: $ip);
+```
+you might noticed  that we used the same method, since the `banned` method accept two arguments, first is `User` instance , and second is ip address, you can pass both if you want to check for both of them ,or only one like we used in the examples.
+
+ you can unban an ip or array of ips like this :
+ 
+```php
+use Joodek\Prohibition\Facades\Prohibition;
+use App\Models\User;
+
+$ip = "123.45.6.7";
+
+Prohibition::unbanIP($ip);
+
+// or  array
+
+$ips = ["123.45.6.7","123.45.6.7","123.45.6.7","123.45.6.7"];
+
+Prohibition::unbanIP($ips);
+
+```
+
+# Testing
+you can test the functionality using the package test, to do so, you will need to publish the tests if you haven't yet :
+
+```shell
+php artisan vendor:publish --provider="Joodek\Prohibition\ProhibitionServiceProvider" --tag="prohibition-tests"
+```
+this will clone a `ProhibitionTest` to your tests directory, and run it using the default laravel syntax
 
 # Restriction
 Banned users wether using the model or ip will by default recieve `403 Forbidden` error when trying to access your application,
