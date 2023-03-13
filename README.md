@@ -11,7 +11,7 @@ composer require joodek/laravel-prohibition
  Add this middleware to your web middlewares group in `app/Http/Kernel.php`
 
 ```php
-Joodek\Prohibition\Http\Middleware\BlockBannedUsersMiddleware::class;
+Joodek\Prohibition\Middleware\ProhibitionMiddleware::class;
 ```
 
 make sure to add it exactly to `app/Http/Kernel::$middlewareGroup` property in web key , otherwise it won't work,
