@@ -22,7 +22,7 @@ make sure to add it exactly to `app/Http/Kernel::$middlewareGroup` property in w
 
  publish the configurations using 
 ```shell
-php artisan vendor:publish --provider="Cata\Prohibition\ProhibitionServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Cata\Prohibition\ServiceProvider" --tag="config"
 ```
 
  migrate the table 
